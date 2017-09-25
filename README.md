@@ -160,7 +160,7 @@ Here's how the pieces we have discussed fit together:
 
 ```
 <<noweb.py>>=
-#! /usr/local/bin/python
+#! /usr/bin/env python
 
 #
 # noweb.py
