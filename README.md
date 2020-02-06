@@ -1,7 +1,12 @@
+# Tinkering with Jonathan Aquino's noweb.py code
+
+I'm curious to see if this supports indentation, and if it doesn't, how hard it
+would be to add that.
+
+# The text below is Jonathan's writing
+
 This executable document first appeared as a blog post on
 http://jonaquino.blogspot.com/2010/04/nowebpy-or-worlds-first-executable-blog.html
-
-
 
 I have recently been interested in the old idea of
 [literate programming](http://en.wikipedia.org/wiki/Literate_programming).
@@ -28,26 +33,10 @@ script to emulate it?
 
 And that is what we will do now.
 
-
-
-
-
-
-
-
-
 # DOWNLOAD
 
 If you are just interested in the noweb.py script produced by this document,
 you can [download](http://github.com/JonathanAquino/noweb.py/raw/master/noweb.py) it from GitHub.
-
-
-
-
-
-
-
-
 
 # USAGE
 
@@ -59,14 +48,6 @@ as input (noweb format) and extract code from it as output. For example,
 This will read in a file called hello.noweb and extract the code labelled "hello.php".
 We redirect the output into a hello.php file.
 
-
-
-
-
-
-
-
-
 # READING IN THE FILE
 
 In a literate program, there are named chunks of code interspersed throughout
@@ -76,6 +57,7 @@ The chunk ends with an @ sign.
 Let's start by reading in the file given on the command line. We'll build up
 a map called "chunks", which will contain the chunk names and the lines of each chunk.
 
+```
 <<Reading in the file>>=
 file = open(filename)
 chunkName = None
@@ -96,14 +78,7 @@ for line in file:
         elif chunkName:
             chunks[chunkName].append(line)
 @
-
-
-
-
-
-
-
-
+```
 
 # PARSING THE COMMAND-LINE ARGUMENTS
 
@@ -116,24 +91,19 @@ the command-line arguments given to the script:
 For simplicity, we'll assume that there are always two command-line arguments:
 in this example, "-Rhello.php" and "hello.noweb". So let's grab those.
 
+```
 <<Parsing the command-line arguments>>=
 filename = sys.argv[-1]
 outputChunkName = sys.argv[-2][2:]
 @
-
-
-
-
-
-
-
-
+```
 
 # RECURSIVELY EXPANDING THE OUTPUT CHUNK
 
 So far, so good. Now we need a recursive function to expand any chunks found
 in the output chunk requested by the user. Take a deep breath.
 
+```
 <<Recursively expanding the output chunk>>=
 def expand(chunkName, indent):
     chunkLines = chunks[chunkName]
@@ -146,36 +116,21 @@ def expand(chunkName, indent):
             expandedChunkLines.append(indent + line)
     return expandedChunkLines
 @
-
-
-
-
-
-
-
-
-
+```
 
 # OUTPUTTING THE CHUNKS
 
 The last step is easy. We just call the recursive function and output the result.
 
+```
 <<Outputting the chunks>>=
 for line in expand(outputChunkName, ""):
     print line,
 @
+```
 
 And we're done. We now have a tool to extract code from a literate programming document.
 Try it on this blog post!
-
-
-
-
-
-
-
-
-
 
 # APPENDIX I: GENERATING THE SCRIPT
 
@@ -186,23 +141,17 @@ Python script [noweb.py](http://github.com/JonathanAquino/noweb.py/raw/master/no
 
 Then you can generate noweb.py from noweb.py.html as follows:
 
-    noweb.py -Rnoweb.py noweb.py.txt > noweb.py
-
-
-
-
-
-
-
-
-
+```
+noweb.py -Rnoweb.py noweb.py.txt > noweb.py
+```
 
 # APPENDIX II: SUMMARY OF THE PROGRAM
 
 Here's how the pieces we have discussed fit together:
 
+```
 <<noweb.py>>=
-#! /usr/local/bin/python
+#! /usr/bin/env python
 
 #
 # noweb.py
@@ -222,5 +171,4 @@ import sys, re
 
 <<Outputting the chunks>>
 @
-
-
+```

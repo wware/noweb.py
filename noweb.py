@@ -1,4 +1,4 @@
-#! /usr/local/bin/python
+#! /usr/bin/env python
 
 #
 # noweb.py
@@ -11,8 +11,8 @@
 #
 
 import sys, re
-filename = sys.argv[-1]
-outputChunkName = sys.argv[-2][2:]
+filename = sys.argv[1]
+outputChunkName = sys.argv[2] if len(sys.argv) > 2 else sys.argv[1].replace(".md", ".py")
 file = open(filename)
 chunkName = None
 chunks = {}
